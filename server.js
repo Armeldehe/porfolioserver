@@ -79,6 +79,10 @@ app.use("/api/admin", adminRoutes);
 // Routes pour l'assistant IA
 app.use("/api/ai", aiRoutes);
 
+// Routes pour les designs Canva
+const designRoutes = require("./routes/designRoutes");
+app.use("/api/designs", designRoutes);
+
 // ─────────────────────────────────────────────
 // Route de test - Vérification du serveur
 // ─────────────────────────────────────────────
