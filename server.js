@@ -83,6 +83,11 @@ app.use("/api/ai", aiRoutes);
 const designRoutes = require("./routes/designRoutes");
 app.use("/api/designs", designRoutes);
 
+// Route de Keep-Alive / Health Check
+app.get("/api/ping", (req, res) => {
+  res.status(200).json({ success: true, message: "Server is awake" });
+});
+
 // ─────────────────────────────────────────────
 // Route de test - Vérification du serveur
 // ─────────────────────────────────────────────
