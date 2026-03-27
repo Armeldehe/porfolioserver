@@ -122,8 +122,52 @@ const seedAdmin = async () => {
   }
 };
 
+// ─────────────────────────────────────────────
+// PUT /api/admin/profile - Mettre à jour le profil admin (route protégée)
+// ─────────────────────────────────────────────
+const updateAdminProfile = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id);
+
+    if (admin) {
+      // Mettre à jour les champs si fournis
+      admin.name  = req.body.name || admin.name;
+      admin.email = req.body.email || admin.email;
+      
+      if (req.body.password) {
+        admin.password = req.body.password;
+      }
+
+      const updatedAdmin = await admin.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Profil mis à jour avec succès",
+        admin: {
+          id: updatedAdmin._id,
+          name: updatedAdmin.name,
+          email: updatedAdmin.email,
+          role: updatedAdmin.role,
+        },
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Administrateur non trouvé",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Erreur lors de la mise à jour du profil",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   loginAdmin,
   getAdminProfile,
+  updateAdminProfile,
   seedAdmin,
 };
