@@ -131,5 +131,6 @@ app.listen(PORT, () => {
   console.log(`   → POST   http://localhost:${PORT}/api/messages`);
   console.log(`   → GET    http://localhost:${PORT}/api/messages  [🔒 admin]`);
   console.log(`   → POST   http://localhost:${PORT}/api/admin/login`);
-  console.log(`   → GET    http://localhost:${PORT}/api/admin/profile [🔒 admin]\n`);
+  console.log(`   → GET    http://localhost:${PORT}/api/admin/profile [🔒 admin]`);
+  console.log(`   → PUT    http://localhost:${PORT}/api/admin/profile [🔒 admin]\n`);
 });
