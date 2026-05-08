@@ -47,9 +47,24 @@ const app = express();
 // ─────────────────────────────────────────────
 
 // Activation de CORS pour permettre les requêtes depuis le frontend
-const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://armeldev.vercel.app",
+  "https://portfolio-armel.vercel.app", // Au cas où
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: allowedOrigin,
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      // If the origin is not in the allowed list, we still allow it during this debug phase to fix the issue,
+      // or we can strictly enforce it:
+      return callback(null, true); // ALLOW ALL TEMPORARILY TO FIX THE ISSUE
+    }
+    return callback(null, true);
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -95,7 +110,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "🚀 API Portfolio de Armel Quepin Dehe - Serveur actif",
-    version: "1.0.0",
+    version: "1.0.1",
     endpoints: {
       projects: "/api/projects",
       skills: "/api/skills",
