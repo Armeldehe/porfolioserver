@@ -102,7 +102,9 @@ router.post("/chat", chatLimiter, async (req, res) => {
 
   } catch (err) {
     console.error("[AI Chat Error]", err.message);
-    res.status(500).json({ reply: FALLBACKS.default, error: true });
+    // Retourner 200 avec fallback pour que le frontend puisse afficher la réponse
+    const { message } = req.body;
+    res.json({ reply: getFallback(message || ""), fallback: true });
   }
 });
 
